@@ -41,6 +41,7 @@ public class TCPNetworkModule implements NetworkModule {
 	private String host;
 	private int port;
 	private int conTimeout;
+	private int soTimeout = 1000;
 
 	/**
 	 * Constructs a new TCPNetworkModule using the specified host and
@@ -72,7 +73,7 @@ public class TCPNetworkModule implements NetworkModule {
 			SocketAddress sockaddr = new InetSocketAddress(host, port);
 			socket = factory.createSocket();
 			socket.connect(sockaddr, conTimeout*1000);
-			socket.setSoTimeout(1000);
+			socket.setSoTimeout(soTimeout);
 		}
 		catch (ConnectException ex) {
 			//@TRACE 250=Failed to create TCP socket
@@ -105,6 +106,20 @@ public class TCPNetworkModule implements NetworkModule {
 	 */
 	public void setConnectTimeout(int timeout) {
 		this.conTimeout = timeout;
+	}
+
+	/**
+	 * * With this option set * to a non-zero timeout, a read() call on the
+	 * InputStream associated with * this Socket will block for only this amount of
+	 * time. If the timeout * expires, a <B>java.net.SocketTimeoutException</B> is
+	 * raised, though the * Socket is still valid. The option <B>must</B> be enabled
+	 * * prior to entering the blocking operation to have effect. The * timeout must
+	 * be {@code > 0}. * A timeout of zero is interpreted as an infinite timeout.
+	 *
+	 * @param soTimeout The connection timeout
+	 */
+	public void setSoTimeout(int soTimeout) {
+		this.soTimeout = soTimeout;
 	}
 
 	public String getServerURI() {
