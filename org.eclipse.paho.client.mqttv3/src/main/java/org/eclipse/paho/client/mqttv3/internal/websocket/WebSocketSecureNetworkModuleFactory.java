@@ -41,8 +41,7 @@ public class WebSocketSecureNetworkModuleFactory implements NetworkModuleFactory
 
 	@Override
 	public NetworkModule createNetworkModule(URI brokerUri, MqttConnectOptions options, String clientId)
-			throws MqttException
-	{
+			throws MqttException {
 		String host = brokerUri.getHost();
 		int port = brokerUri.getPort(); // -1 if not defined
 		if (port == -1) {
@@ -68,6 +67,8 @@ public class WebSocketSecureNetworkModuleFactory implements NetworkModuleFactory
 		netModule.setSSLhandshakeTimeout(options.getConnectionTimeout());
 		netModule.setSSLHostnameVerifier(options.getSSLHostnameVerifier());
 		netModule.setHttpsHostnameVerificationEnabled(options.isHttpsHostnameVerificationEnabled());
+		netModule.setSoTimeout(options.getSoTimeout());
+
 		// Ciphers suites need to be set, if they are available
 		if (wSSFactoryFactory != null) {
 			String[] enabledCiphers = wSSFactoryFactory.getEnabledCipherSuites(null);

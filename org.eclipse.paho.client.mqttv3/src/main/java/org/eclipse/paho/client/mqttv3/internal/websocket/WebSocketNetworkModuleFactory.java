@@ -38,8 +38,7 @@ public class WebSocketNetworkModuleFactory implements NetworkModuleFactory {
 
 	@Override
 	public NetworkModule createNetworkModule(URI brokerUri, MqttConnectOptions options, String clientId)
-			throws MqttException
-	{
+			throws MqttException {
 		String host = brokerUri.getHost();
 		int port = brokerUri.getPort(); // -1 if not defined
 		if (port == -1) {
@@ -51,8 +50,8 @@ public class WebSocketNetworkModuleFactory implements NetworkModuleFactory {
 		} else if (factory instanceof SSLSocketFactory) {
 			throw ExceptionHelper.createMqttException(MqttException.REASON_CODE_SOCKET_FACTORY_MISMATCH);
 		}
-		WebSocketNetworkModule netModule = new WebSocketNetworkModule(factory, brokerUri.toString(), host, port,
-				clientId, options.getCustomWebSocketHeaders());
+		WebSocketNetworkModule netModule = new WebSocketNetworkModule(factory, brokerUri.toString(), host, port, clientId,
+				options.getCustomWebSocketHeaders());
 		netModule.setConnectTimeout(options.getConnectionTimeout());
 		netModule.setSoTimeout(options.getSoTimeout());
 		return netModule;
